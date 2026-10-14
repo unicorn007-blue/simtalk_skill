@@ -4,11 +4,13 @@
 
 **Purpose:** sim clock, start/stop/reset, time control.
 
+**Version note:** In the user-tested version, the base-date attribute is `Date`; `StartDate` raises an unknown-identifier error. The bundled `04_EventController.md` documents `StartDate` for its source version, so follow the target version Help when these differ. Keep the verified `AbsSimTime` for the current absolute timestamp; do not replace it with a manual sum. For a relative statistics offset `start_time` (seconds), use `EventController.Date + start_time` as the absolute start and `EventController.AbsSimTime` as the absolute end. Use `EventController.SimTime` for elapsed time; the former `Time` entry was not verified here.
+
 | Attribute | Type | Description |
 |-----------|------|-------------|
-| `Time` | time RO | current sim time |
-| `AbsSimTime` | datetime | StartDate + Time |
-| `StartDate` | datetime | base date |
+| `SimTime` | time RO | elapsed simulation time |
+| `AbsSimTime` | datetime RO | current absolute simulation date and time; use directly |
+| `Date` | datetime | simulation base date and time (verified in user-provided version Help) |
 | `EndTime` | time | stop time |
 | `StartStat` | time | warm-up end |
 | `Realtime` | bool | realtime mode |

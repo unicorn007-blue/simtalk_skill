@@ -1,5 +1,5 @@
 ---
-name: plantsimulation-copilot
+name: plantsimulation-unicorn
 description: 'Use when generating Siemens Plant Simulation SimTalk 2.0 code, reviewing model logic, or giving modeling guidance. Triggers: Plant Simulation, SimTalk, AGV, model standards, code generation, psfm, .psfm folder'
 argument-hint: 'Describe the Plant Simulation task, object scope, inputs/outputs, and required behavior.'
 user-invocable: true
@@ -104,6 +104,8 @@ Verify-before-write order is mandatory. Do NOT generate code first and verify af
 | Always check `.move()` result | Silent failure if target occupied |
 | Use column NAMES for DataTable access | Column numbers break on reorder |
 | Use `switch` over cascading `if-elseif` | Performance + readability |
+| Use `else` for the `switch` fallback branch | SimTalk has no `default` branch keyword |
+| Use `/=` for not equal; reserve `~=` for about equal | `~=` applies epsilon-tolerant/about-equal comparison and is not inequality |
 | Use assignment operators (`+=`, `-=`, `*=`) | Conciseness |
 | All config from tables, never hardcoded | Scalability |
 | `exitloop` when search finds match | Performance |
@@ -119,11 +121,14 @@ Verify-before-write order is mandatory. Do NOT generate code first and verify af
 ❌ Hardcoded column numbers: table[1, i]
 ❌ Hardcoded object counts: for var i := 1 to 3
 ❌ Cascading if-elseif when switch works
+❌ `default` inside a switch; use `else`
+❌ Treating `~=` as not equal; use `/=` for inequality
 ❌ print statements left in production code
 ❌ makeRGBValue() in methods
 ❌ Modifying input tables during simulation (copy first)
 ❌ Putting inputs directly in object dialogs
 ❌ Calling methods/attributes not verified in API Index or KB files (API hallucination)
+❌ Add `-> void` to user-defined Methods that do not return a value
 ```
 
 ## Compliance Gate (Must Pass All)

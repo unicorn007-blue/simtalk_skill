@@ -36,7 +36,11 @@ name -= value          -- decrement
 ```
 
 ### Comparison
-`=`, `/=` (not equal), `<`, `>`, `<=`, `>=`
+`=` (exactly equal), `~=` (about equal, using the model epsilon), `/=` (not equal), `<`, `>`, `<=`, `>=`
+
+Important:
+- `~=` is not “not equal.” For identical strings, for example `"left" ~= "left"`, the result is `true`; for real values it permits the configured epsilon tolerance.
+- Use `/=` for “not equal.”
 
 ### Logical
 `and`, `or`, `not`
@@ -86,14 +90,16 @@ until condition
 ### Switch-Case
 ```simtalk
 switch expression
-case value1:
+case value1
     -- block
-case value2:
+case value2
     -- block
-default:
+else
     -- block
 end
 ```
+
+SimTalk `switch` uses `else` as its optional fallback branch. It does not use `default`.
 
 ## Indentation Rules
 
@@ -101,7 +107,8 @@ end
 |---------|--------|
 | `if`, `for`, `while`, `repeat`, `switch` | Next line +1 indent |
 | `loop` (after `while`) | Same level as `while`, content +1 |
-| `case`, `default` | Close previous case (-1), open new (+1) |
+| `case` | Close previous case (-1), open new (+1) |
+| `else` in `switch` | Close previous case (-1), open fallback branch (+1) |
 | `elseif`, `else` | Close previous block (-1), open new (+1) |
 | `end`, `next`, `until` | Close block (-1 on this line) |
 
@@ -131,6 +138,24 @@ object.methodName(arg1, arg2)        -- call method on object
 result := object.methodName(...)     -- capture return value
 object.methodName                    -- no-arg call (parentheses optional)
 ```
+
+## User-defined Method Return Declaration
+
+A user-defined Method without a return value can omit the return declaration.
+
+```simtalk
+param byref arr : integer[]
+```
+
+If Plant Simulation reports a syntax error for `param byref arr : integer[] -> void`, omit `-> void` for this kind of Method.
+
+Use `-> type` when the Method explicitly returns a value:
+
+```simtalk
+param value : integer -> integer
+```
+
+Note: Built-in Plant Simulation function signatures and callback signatures may document `-> void`. Do not generalize the omission rule to those signatures.
 
 ## Common Patterns
 
